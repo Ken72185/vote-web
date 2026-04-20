@@ -1,0 +1,81 @@
+// Fungsi buat BIKIN polling baru di index.html
+async function createPoll() {
+    const title = document.getElementById('poll-title').value;
+    const optionsRaw = document.getElementById('poll-options').value;
+    
+    // Pisahin opsi berdasarkan koma dan ilangin spasi
+    const options = optionsRaw.split(',').map(opt => opt.trim()).filter(opt => opt !== "");
+
+    if(!title || options.length < 2) {
+        alert("Isi judul dan minimal 2 opsi (pisahkan dengan koma) brok!");
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, options })
+        });
+        
+        const result = await response.json();
+        if(result.status === "sukses") {
+            const link = window.location.origin + '/vote/' + result.poll_id;
+            const linkDiv = document.getElementById('result-link');
+            linkDiv.innerHTML = `
+                <p style="color: #4CAF50; margin-bottom: 10px;">Berhasil dibikin!</p>
+                <p>Bagikan link ini:</p>
+                <a href="${link}" style="color: #e94057; font-weight: bold; word-break: break-all;">${link}</a>
+            `;
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
+// Fungsi Submit Vote di vote.html
+async function submitVote(pollId, pilihan) {
+    try {
+        const response = await fetch(`/api/vote/${pollId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ choice: pilihan })
+        });
+        
+        const result = await response.json();
+        if(result.status === "sukses") {
+            alert("Thanks brok! Vote lu udah terekam.");
+            window.location.href = `/dashboard/${pollId}`; // Arahin langsung ke analytics
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
+// Fungsi Load Analytics di dashboard.html
+async function loadAnalytics(pollId) {
+    try {
+        const response = await fetch(`/api/stats/${pollId}`);
+        const data = await response.json();
+        
+        const listContainer = document.getElementById('analytics-list');
+        listContainer.innerHTML = '';
+
+        if(data.length === 0) {
+            listContainer.innerHTML = '<p>Belum ada data masuk.</p>';
+            return;
+        }
+
+        data.reverse().forEach(vote => {
+            const div = document.createElement('div');
+            div.className = 'vote-item';
+            div.innerHTML = `
+                <strong>Pilihan:</strong> ${vote.choice} <br>
+                <span class="time">Waktu: ${vote.waktu_ngisi}</span>
+            `;
+            listContainer.appendChild(div);
+        });
+    } catch (error) {
+        console.error("Error loading stats:", error);
+    }
+}
