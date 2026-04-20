@@ -5,11 +5,12 @@ import os
 import uuid
 
 app = Flask(__name__)
-DATA_FILE = 'polls.json' # Ganti nama biar lebih pas
+# INI KUNCI FIX-NYA: Pake folder /tmp/ biar Vercel ngizinin nyimpen file
+DATA_FILE = '/tmp/polls.json' 
 
 def load_data():
     if not os.path.exists(DATA_FILE):
-        return {} # Sekarang pakenya Dictionary (Object), bukan List
+        return {} 
     with open(DATA_FILE, 'r') as f:
         return json.load(f)
 
@@ -17,22 +18,20 @@ def save_data(data):
     with open(DATA_FILE, 'w') as f:
         json.dump(data, f, indent=4)
 
-# Halaman awal buat BIKIN polling
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# API buat bikin polling baru
 @app.route('/api/create', methods=['POST'])
 def create_poll():
     data = request.json
     title = data.get('title')
-    options = data.get('options') # Ini nanti array dari Frontend
+    options = data.get('options')
     
     if not title or not options or len(options) < 2:
         return jsonify({"status": "error", "message": "Judul dan minimal 2 opsi wajib diisi!"}), 400
         
-    poll_id = str(uuid.uuid4())[:8] # Bikin ID unik 8 karakter
+    poll_id = str(uuid.uuid4())[:8]
     polls = load_data()
     
     polls[poll_id] = {
@@ -44,7 +43,6 @@ def create_poll():
     
     return jsonify({"status": "sukses", "poll_id": poll_id})
 
-# Halaman buat NGE-VOTE berdasarkan ID
 @app.route('/vote/<poll_id>')
 def vote_page(poll_id):
     polls = load_data()
@@ -54,7 +52,6 @@ def vote_page(poll_id):
     poll_data = polls[poll_id]
     return render_template('vote.html', poll_id=poll_id, title=poll_data['title'], options=poll_data['options'])
 
-# API buat nyimpen vote
 @app.route('/api/vote/<poll_id>', methods=['POST'])
 def submit_vote(poll_id):
     data = request.json
@@ -71,7 +68,6 @@ def submit_vote(poll_id):
         return jsonify({"status": "sukses"})
     return jsonify({"status": "error"}), 400
 
-# Halaman ANALYTICS berdasarkan ID
 @app.route('/dashboard/<poll_id>')
 def dashboard(poll_id):
     polls = load_data()
@@ -79,7 +75,6 @@ def dashboard(poll_id):
         return "Waduh brok, polling ga ketemu", 404
     return render_template('dashboard.html', poll_id=poll_id, title=polls[poll_id]['title'])
 
-# API buat ngambil data analytics
 @app.route('/api/stats/<poll_id>', methods=['GET'])
 def stats(poll_id):
     polls = load_data()
