@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote: {{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 style="font-size: 24px;">{{ title }}</h1>
+        <div class="options">
+            {% for option in options %}
+            <button class="vote-btn" onclick="submitVote('{{ poll_id }}', '{{ option }}')">{{ option }}</button>
+            {% endfor %}
+        </div>
+        <br>
+        <a href="/dashboard/{{ poll_id }}" style="color: #aaaaaa; font-size: 12px; text-decoration: none;">Lihat Analytics Sementara &rarr;</a>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
