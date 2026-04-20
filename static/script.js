@@ -1,9 +1,7 @@
-// Fungsi buat BIKIN polling baru di index.html
 async function createPoll() {
     const title = document.getElementById('poll-title').value;
     const optionsRaw = document.getElementById('poll-options').value;
     
-    // Pisahin opsi berdasarkan koma dan ilangin spasi
     const options = optionsRaw.split(',').map(opt => opt.trim()).filter(opt => opt !== "");
 
     if(!title || options.length < 2) {
@@ -27,13 +25,16 @@ async function createPoll() {
                 <p>Bagikan link ini:</p>
                 <a href="${link}" style="color: #e94057; font-weight: bold; word-break: break-all;">${link}</a>
             `;
+        } else {
+            alert(result.message);
         }
     } catch (error) {
         console.error("Error:", error);
+        // INI TAMBAHANNYA: Biar lu tau kalo servernya nolak
+        alert("Waduh error brok, server gagal nyimpen data!"); 
     }
 }
 
-// Fungsi Submit Vote di vote.html
 async function submitVote(pollId, pilihan) {
     try {
         const response = await fetch(`/api/vote/${pollId}`, {
@@ -45,14 +46,13 @@ async function submitVote(pollId, pilihan) {
         const result = await response.json();
         if(result.status === "sukses") {
             alert("Thanks brok! Vote lu udah terekam.");
-            window.location.href = `/dashboard/${pollId}`; // Arahin langsung ke analytics
+            window.location.href = `/dashboard/${pollId}`; 
         }
     } catch (error) {
         console.error("Error:", error);
     }
 }
 
-// Fungsi Load Analytics di dashboard.html
 async function loadAnalytics(pollId) {
     try {
         const response = await fetch(`/api/stats/${pollId}`);
