@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - {{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Kumpulan Data Vote:</h2>
+        <h1 style="font-size: 20px; margin-top: 10px;">{{ title }}</h1>
+        
+        <div class="analytics-box" id="analytics-list">
+            </div>
+        
+        <br>
+        <a href="/vote/{{ poll_id }}" style="color: #aaaaaa; font-size: 12px; text-decoration: none;">&larr; Kembali ke halaman Vote</a>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Lempar poll_id dari Flask ke JS
+        window.onload = () => loadAnalytics('{{ poll_id }}');
+    </script>
+</body>
+</html>
