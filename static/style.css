@@ -1,12 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    background-color: #121212;
+    background-color: #09090b; /* Dark mode yang lebih pekat dan elegan */
+    background-image: radial-gradient(circle at top right, rgba(138, 35, 135, 0.1), transparent 40%),
+                      radial-gradient(circle at bottom left, rgba(233, 64, 87, 0.1), transparent 40%);
     color: #ffffff;
     display: flex;
     flex-direction: column;
@@ -17,20 +21,33 @@ body {
 }
 
 .container {
-    background: #1e1e1e;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
     text-align: center;
-    max-width: 500px;
+    max-width: 450px;
     width: 100%;
 }
 
 h1 {
-    margin-bottom: 30px;
-    background: linear-gradient(45deg, #8a2387, #e94057);
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    background: linear-gradient(45deg, #8a2387, #e94057, #f27121);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+h2 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #a1a1aa;
+    margin-bottom: 5px;
 }
 
 .options {
@@ -39,13 +56,37 @@ h1 {
     gap: 15px;
 }
 
+/* Styling buat Input Text */
+input[type="text"] {
+    width: 100%;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #e94057;
+    box-shadow: 0 0 15px rgba(233, 64, 87, 0.2);
+}
+
+input[type="text"]::placeholder {
+    color: #71717a;
+}
+
+/* Styling Tombol */
 button.vote-btn {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.03);
     color: #fff;
-    border: 2px solid #e94057;
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -53,24 +94,79 @@ button.vote-btn {
 button.vote-btn:hover {
     background: linear-gradient(45deg, #8a2387, #e94057);
     border-color: transparent;
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(233, 64, 87, 0.3);
+}
+
+/* Tombol khusus buat Generate Link */
+button.create-btn {
+    background: linear-gradient(45deg, #8a2387, #e94057);
+    border: none;
+    margin-top: 10px;
+}
+
+button.create-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(233, 64, 87, 0.4);
 }
 
 .analytics-box {
-    margin-top: 30px;
+    margin-top: 25px;
     text-align: left;
+    max-height: 350px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* Custom Scrollbar biar rapi */
+.analytics-box::-webkit-scrollbar {
+    width: 6px;
+}
+.analytics-box::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
 }
 
 .vote-item {
-    background: #2a2a2a;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 12px;
     font-size: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
     border-left: 4px solid #e94057;
+    transition: transform 0.2s ease;
+}
+
+.vote-item:hover {
+    transform: translateX(5px);
 }
 
 .time {
-    color: #aaaaaa;
+    display: block;
+    color: #71717a;
     font-size: 12px;
+    margin-top: 5px;
+}
+
+a {
+    color: #a1a1aa;
+    font-size: 13px;
+    text-decoration: none;
+    margin-top: 25px;
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #e94057;
+}
+
+#result-link {
+    margin-top: 25px;
+    background: rgba(0,0,0,0.3);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(233, 64, 87, 0.3);
+    font-size: 14px;
 }
