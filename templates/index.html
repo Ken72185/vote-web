@@ -10,13 +10,13 @@
     <div class="container">
         <h1>Buat Polling Baru</h1>
         <div class="options">
-            <input type="text" id="poll-title" placeholder="Pertanyaan lu apa?" style="padding: 15px; border-radius: 8px; border: none; background: #2a2a2a; color: white;">
-            <input type="text" id="poll-options" placeholder="Opsi 1, Opsi 2, Opsi 3 (Pisahkan koma)" style="padding: 15px; border-radius: 8px; border: none; background: #2a2a2a; color: white;">
+            <input type="text" id="poll-title" placeholder="Pertanyaan lu apa?">
+            <input type="text" id="poll-options" placeholder="Opsi 1, Opsi 2, Opsi 3 (Pisahkan koma)">
             
-            <button class="vote-btn" onclick="createPoll()" style="background: linear-gradient(45deg, #8a2387, #e94057); border: none;">Generate Link Polling</button>
+            <button class="vote-btn create-btn" onclick="createPoll()">Generate Link Polling</button>
         </div>
         
-        <div id="result-link" style="margin-top: 20px; background: #1e1e1e; padding: 15px; border-radius: 8px;">
+        <div id="result-link" style="display: none;">
             </div>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
